@@ -18,6 +18,134 @@
             padding: 20px;
         }
 
+        /* Splash Screen / Infografia Inicial */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-content {
+            max-width: 90%;
+            max-height: 90%;
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .splash-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .splash-text {
+            color: white;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        .splash-skip {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .splash-skip:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .splash-countdown {
+            color: #a0aec0;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        /* Modal Infografia */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 95%;
+            max-height: 95%;
+            position: relative;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 40px;
+            height: 40px;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #c53030;
+            transform: scale(1.1);
+        }
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -511,6 +639,24 @@
     </style>
 </head>
 <body>
+    <!-- Splash Screen con Infografia -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <img src="infografia.png" alt="Infografía - Resonancia de Rodillas">
+            <p class="splash-text">Infografía: Resonancia Magnética de Rodillas</p>
+            <p class="splash-countdown" id="countdown">Continúa en <span id="countdownNumber">5</span> segundos...</p>
+            <button class="splash-skip" onclick="closeSplash()">Continuar ahora →</button>
+        </div>
+    </div>
+
+    <!-- Modal para ver Infografia despues -->
+    <div class="modal-overlay" id="infografiaModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <img src="infografia.png" alt="Infografía - Resonancia de Rodillas">
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>Resumen de Resonancias Magneticas</h1>
@@ -521,6 +667,16 @@
                 <p><strong>Estudios realizados:</strong></p>
                 <p>&#8226; RM Rodilla Derecha (ID: 267208)</p>
                 <p>&#8226; RM Rodilla Izquierda (ID: 267209)</p>
+            </div>
+        </div>
+
+        <!-- Boton Infografia -->
+        <div class="image-links" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);">
+            <div style="text-align: center;">
+                <button onclick="openModal()" style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; border-radius: 12px; font-weight: 600; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease;">
+                    &#128202; Ver Infografía Completa
+                </button>
+                <p style="margin-top: 10px; color: #92400e; font-size: 0.85em;">Resumen visual de la resonancia de rodillas</p>
             </div>
         </div>
 
@@ -976,6 +1132,53 @@
             // Toggle clicked card
             card.classList.toggle('active');
         }
+
+        // Splash Screen / Infografia
+        let countdownTimer;
+        let secondsLeft = 5;
+
+        function startCountdown() {
+            countdownTimer = setInterval(() => {
+                secondsLeft--;
+                document.getElementById('countdownNumber').textContent = secondsLeft;
+                if (secondsLeft <= 0) {
+                    closeSplash();
+                }
+            }, 1000);
+        }
+
+        function closeSplash() {
+            clearInterval(countdownTimer);
+            document.getElementById('splashScreen').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('splashScreen').style.display = 'none';
+            }, 500);
+        }
+
+        // Modal Infografia
+        function openModal() {
+            document.getElementById('infografiaModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(event) {
+            if (!event || event.target === document.getElementById('infografiaModal')) {
+                document.getElementById('infografiaModal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Iniciar countdown cuando carga la pagina
+        window.onload = function() {
+            startCountdown();
+        };
     </script>
 </body>
 </html>
