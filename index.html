@@ -18,20 +18,37 @@
             padding: 20px;
         }
 
-        /* Splash Screen / Infografia Inicial */
+        /* Splash Screen / Presentacion Inicial KOR */
         .splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f23 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
             opacity: 1;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.8s ease;
+            overflow: hidden;
+        }
+
+        .splash-screen::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.1) 0%, transparent 50%);
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
 
         .splash-screen.hidden {
@@ -41,15 +58,141 @@
 
         .splash-content {
             max-width: 90%;
-            max-height: 90%;
             text-align: center;
-            animation: fadeInUp 0.8s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .splash-logo-container {
+            margin-bottom: 30px;
+            animation: logoEntrance 1.2s ease-out;
+        }
+
+        @keyframes logoEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotateY(90deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1) rotateY(0deg);
+            }
+            100% {
+                transform: scale(1) rotateY(0deg);
+            }
+        }
+
+        .splash-logo {
+            width: 180px;
+            height: 180px;
+            border-radius: 20px;
+            box-shadow:
+                0 0 60px rgba(255, 140, 0, 0.6),
+                0 0 120px rgba(255, 140, 0, 0.3),
+                0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .splash-brand {
+            font-size: 3.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6600 50%, #ffaa00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(255, 140, 0, 0.5);
+            letter-spacing: 8px;
+            margin-bottom: 10px;
+            animation: brandEntrance 1s ease-out 0.3s both;
+        }
+
+        @keyframes brandEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+                letter-spacing: 20px;
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                letter-spacing: 8px;
+            }
+        }
+
+        .splash-tagline {
+            font-size: 1.1em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .splash-divider {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff8c00, transparent);
+            margin: 25px auto;
+            animation: dividerExpand 1s ease-out 0.8s both;
+        }
+
+        @keyframes dividerExpand {
+            from { width: 0; opacity: 0; }
+            to { width: 100px; opacity: 1; }
+        }
+
+        .splash-headline {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 15px;
+            animation: fadeInUp 1s ease-out 1s both;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+        }
+
+        .splash-subheadline {
+            font-size: 1.15em;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 1.2s both;
+        }
+
+        .splash-features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 1.4s both;
+        }
+
+        .splash-feature {
+            text-align: center;
+        }
+
+        .splash-feature-icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        .splash-feature-text {
+            color: #888;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -57,40 +200,37 @@
             }
         }
 
-        .splash-content img {
-            max-width: 100%;
-            max-height: 80vh;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .splash-text {
-            color: white;
-            margin-top: 20px;
-            font-size: 1.1em;
-        }
-
-        .splash-skip {
-            margin-top: 15px;
-            padding: 10px 25px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+        .splash-cta {
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6600 100%);
+            color: #000;
             border: none;
-            border-radius: 25px;
-            font-size: 1em;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 40px rgba(255, 140, 0, 0.4);
+            animation: fadeInUp 1s ease-out 1.6s both;
         }
 
-        .splash-skip:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+        .splash-cta:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(255, 140, 0, 0.6);
         }
 
         .splash-countdown {
-            color: #a0aec0;
-            font-size: 0.9em;
-            margin-top: 10px;
+            color: #555;
+            font-size: 0.85em;
+            margin-top: 20px;
+            animation: fadeInUp 1s ease-out 1.8s both;
+        }
+
+        .splash-countdown span {
+            color: #ff8c00;
+            font-weight: 600;
         }
 
         /* Modal Infografia */
@@ -639,13 +779,40 @@
     </style>
 </head>
 <body>
-    <!-- Splash Screen con Infografia -->
+    <!-- Splash Screen - Presentacion KOR -->
     <div class="splash-screen" id="splashScreen">
         <div class="splash-content">
-            <img src="infografia.png" alt="Infografía - Resonancia de Rodillas">
-            <p class="splash-text">Infografía: Resonancia Magnética de Rodillas</p>
-            <p class="splash-countdown" id="countdown">Continúa en <span id="countdownNumber">5</span> segundos...</p>
-            <button class="splash-skip" onclick="closeSplash()">Continuar ahora →</button>
+            <div class="splash-logo-container">
+                <img src="logo_kor.png" alt="KOR Logo" class="splash-logo">
+            </div>
+            <div class="splash-brand">KOR</div>
+            <div class="splash-tagline">Medical Intelligence</div>
+            <div class="splash-divider"></div>
+            <h1 class="splash-headline">Lider Mundial en Resumenes de Diagnosticos Medicos</h1>
+            <p class="splash-subheadline">
+                Transformamos sus estudios medicos en informacion clara y comprensible.
+                <strong style="color: #ff8c00;">Vaya a su medico con conocimiento previo.</strong>
+            </p>
+            <div class="splash-features">
+                <div class="splash-feature">
+                    <div class="splash-feature-icon">&#129504;</div>
+                    <div class="splash-feature-text">IA Avanzada</div>
+                </div>
+                <div class="splash-feature">
+                    <div class="splash-feature-icon">&#128202;</div>
+                    <div class="splash-feature-text">Visualizacion Clara</div>
+                </div>
+                <div class="splash-feature">
+                    <div class="splash-feature-icon">&#128172;</div>
+                    <div class="splash-feature-text">Lenguaje Simple</div>
+                </div>
+                <div class="splash-feature">
+                    <div class="splash-feature-icon">&#9201;</div>
+                    <div class="splash-feature-text">Resultados Rapidos</div>
+                </div>
+            </div>
+            <button class="splash-cta" onclick="closeSplash()">Ver Mi Informe &#8594;</button>
+            <p class="splash-countdown" id="countdown">Acceso automatico en <span id="countdownNumber">8</span> segundos</p>
         </div>
     </div>
 
@@ -1160,9 +1327,9 @@
             card.classList.toggle('active');
         }
 
-        // Splash Screen / Infografia
+        // Splash Screen / Presentacion KOR
         let countdownTimer;
-        let secondsLeft = 5;
+        let secondsLeft = 8;
 
         function startCountdown() {
             countdownTimer = setInterval(() => {
