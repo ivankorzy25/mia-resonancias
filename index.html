@@ -775,6 +775,239 @@
             .image-link-btn {
                 justify-content: center;
             }
+
+            .top-banner {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .banner-logo-section {
+                margin-bottom: 15px;
+            }
+
+            .banner-contact {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+
+            .banner-contact-item {
+                justify-content: center;
+            }
+        }
+
+        /* Top Banner KOR */
+        .top-banner {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f23 100%);
+            border-radius: 20px;
+            padding: 20px 30px;
+            margin-bottom: 20px;
+            box-shadow:
+                0 10px 40px rgba(0,0,0,0.3),
+                0 0 60px rgba(255, 140, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff8c00, #ff6600, #ffaa00, #ff6600, #ff8c00);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .banner-logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .banner-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.5);
+        }
+
+        .banner-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .banner-brand-name {
+            font-size: 1.8em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6600 50%, #ffaa00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+            line-height: 1;
+        }
+
+        .banner-tagline {
+            font-size: 0.7em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        .banner-slogan {
+            color: #aaa;
+            font-size: 0.85em;
+            max-width: 300px;
+            text-align: center;
+            line-height: 1.4;
+            padding: 0 15px;
+        }
+
+        .banner-slogan strong {
+            color: #ff8c00;
+        }
+
+        .banner-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: flex-end;
+        }
+
+        .banner-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #888;
+            font-size: 0.8em;
+            transition: color 0.3s ease;
+        }
+
+        .banner-contact-item:hover {
+            color: #ff8c00;
+        }
+
+        .banner-contact-item a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .banner-contact-item a:hover {
+            color: #ff8c00;
+        }
+
+        .banner-contact-icon {
+            color: #ff8c00;
+            font-size: 1em;
+        }
+
+        /* Footer KOR */
+        .footer-kor {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0f0f23 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 25px;
+            box-shadow:
+                0 -10px 40px rgba(0,0,0,0.2),
+                0 0 60px rgba(255, 140, 0, 0.05);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-kor::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff8c00, #ff6600, #ffaa00, #ff6600, #ff8c00);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .footer-logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(255, 140, 0, 0.4);
+        }
+
+        .footer-brand-name {
+            font-size: 1.5em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6600 50%, #ffaa00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+        }
+
+        .footer-slogan {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .footer-contact-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #888;
+            font-size: 0.85em;
+        }
+
+        .footer-contact-item a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-contact-item a:hover {
+            color: #ff8c00;
+        }
+
+        .footer-contact-icon {
+            color: #ff8c00;
+        }
+
+        .footer-copyright {
+            color: #444;
+            font-size: 0.75em;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #222;
         }
     </style>
 </head>
@@ -833,6 +1066,35 @@
     </div>
 
     <div class="container">
+        <!-- Top Banner KOR -->
+        <div class="top-banner">
+            <div class="banner-logo-section">
+                <img src="logo_kor.png" alt="KOR Logo" class="banner-logo">
+                <div class="banner-brand">
+                    <span class="banner-brand-name">KOR</span>
+                    <span class="banner-tagline">Medical Intelligence</span>
+                </div>
+            </div>
+            <div class="banner-slogan">
+                <strong>Lider Mundial</strong> en Resumenes de Diagnosticos Medicos.<br>
+                Vaya a su medico con conocimiento previo.
+            </div>
+            <div class="banner-contact">
+                <div class="banner-contact-item">
+                    <span class="banner-contact-icon">&#128222;</span>
+                    <a href="tel:+541139563099">+54 11 3956-3099</a>
+                </div>
+                <div class="banner-contact-item">
+                    <span class="banner-contact-icon">&#128231;</span>
+                    <a href="mailto:informes@diagnosticoskor.com">informes@diagnosticoskor.com</a>
+                </div>
+                <div class="banner-contact-item">
+                    <span class="banner-contact-icon">&#127760;</span>
+                    <a href="https://www.medical-intelligence.com" target="_blank">www.medical-intelligence.com</a>
+                </div>
+            </div>
+        </div>
+
         <div class="header">
             <h1>Resumen de Resonancias Magneticas</h1>
             <h2 style="color: #9f7aea; font-size: 1.2em;">Ambas Rodillas</h2>
@@ -1294,6 +1556,30 @@
         <div class="warning-box">
             <h3>&#9888;&#65039; Nota Importante</h3>
             <p>Este resumen es orientativo y fue generado para facilitar la comprension de las imagenes. <strong>No reemplaza la evaluacion de un medico especialista.</strong> Es fundamental que un traumatologo o radiologo revise las imagenes y proporcione un informe medico oficial. Si Mia tiene dolor persistente, inflamacion o limitacion de movimiento, consulte con su medico.</p>
+        </div>
+
+        <!-- Footer KOR -->
+        <div class="footer-kor">
+            <div class="footer-logo-section">
+                <img src="logo_kor.png" alt="KOR Logo" class="footer-logo">
+                <span class="footer-brand-name">KOR</span>
+            </div>
+            <p class="footer-slogan">Medical Intelligence - Transformando diagnosticos en conocimiento</p>
+            <div class="footer-contact-row">
+                <div class="footer-contact-item">
+                    <span class="footer-contact-icon">&#128222;</span>
+                    <a href="tel:+541139563099">+54 11 3956-3099</a>
+                </div>
+                <div class="footer-contact-item">
+                    <span class="footer-contact-icon">&#128231;</span>
+                    <a href="mailto:informes@diagnosticoskor.com">informes@diagnosticoskor.com</a>
+                </div>
+                <div class="footer-contact-item">
+                    <span class="footer-contact-icon">&#127760;</span>
+                    <a href="https://www.medical-intelligence.com" target="_blank">www.medical-intelligence.com</a>
+                </div>
+            </div>
+            <p class="footer-copyright">&#169; 2026 KOR Medical Intelligence. Todos los derechos reservados.<br>Lider mundial en resumenes de diagnosticos medicos anticipados.</p>
         </div>
     </div>
 
