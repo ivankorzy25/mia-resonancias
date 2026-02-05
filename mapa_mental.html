@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Mental - Resonancia de Rodillas - Mia Batiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 1.6em;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 0.95em;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Mind Map Styles */
+        .mindmap-container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow-x: auto;
+        }
+
+        .mindmap {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-width: 900px;
+            padding: 20px;
+        }
+
+        /* Root Node */
+        .root-node {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1em;
+            text-align: center;
+            min-width: 280px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Connection Lines */
+        .connections {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            margin-left: 20px;
+        }
+
+        .connections::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 30px;
+            height: 2px;
+            background: #a0aec0;
+        }
+
+        /* Branches Container */
+        .branches {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-left: 50px;
+            position: relative;
+        }
+
+        .branches::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 30px;
+            bottom: 30px;
+            width: 2px;
+            background: #a0aec0;
+        }
+
+        /* Branch Node */
+        .branch {
+            position: relative;
+        }
+
+        .branch::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            width: 20px;
+            height: 2px;
+            background: #a0aec0;
+        }
+
+        .branch-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 250px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+        }
+
+        .branch-header:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+        }
+
+        .branch-header.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .branch-title {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .branch-toggle {
+            width: 24px;
+            height: 24px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: transform 0.3s ease;
+        }
+
+        .branch-header.active .branch-toggle {
+            transform: rotate(90deg);
+        }
+
+        /* Sub-branches */
+        .sub-branches {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-left: 30px;
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 2px solid #e2e8f0;
+        }
+
+        .branch.expanded .sub-branches {
+            display: flex;
+        }
+
+        .sub-item {
+            background: #f7fafc;
+            padding: 12px 18px;
+            border-radius: 8px;
+            color: #4a5568;
+            font-size: 0.9em;
+            border-left: 3px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .sub-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .sub-item strong {
+            color: #2d3748;
+        }
+
+        .sub-item.status-ok {
+            border-left-color: #48bb78;
+        }
+
+        .sub-item.status-ok::before {
+            content: '✓ ';
+            color: #48bb78;
+            font-weight: bold;
+        }
+
+        /* Instructions */
+        .instructions {
+            background: #fffaf0;
+            border: 1px solid #fbd38d;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .instructions p {
+            color: #744210;
+            font-size: 0.9em;
+        }
+
+        .instructions strong {
+            color: #975a16;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mindmap {
+                min-width: auto;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .root-node {
+                min-width: auto;
+                width: 100%;
+            }
+
+            .connections::before {
+                display: none;
+            }
+
+            .branches {
+                margin-left: 20px;
+                margin-top: 20px;
+            }
+
+            .branch-header {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>&#129504; Mapa Mental Interactivo</h1>
+            <p>Resonancia Magnetica de Ambas Rodillas - Mia Batiz</p>
+            <a href="index.html" class="back-btn">
+                &#8592; Volver al Resumen
+            </a>
+        </div>
+
+        <div class="mindmap-container">
+            <div class="mindmap">
+                <div class="root-node">
+                    &#129461; Resonancia Magnetica<br>Ambas Rodillas - Mia Batiz
+                </div>
+
+                <div class="connections"></div>
+
+                <div class="branches">
+                    <!-- Informacion del Estudio -->
+                    <div class="branch" onclick="toggleBranch(this)">
+                        <div class="branch-header">
+                            <span class="branch-title">&#128203; Informacion del Estudio</span>
+                            <span class="branch-toggle">&#9654;</span>
+                        </div>
+                        <div class="sub-branches">
+                            <div class="sub-item"><strong>Paciente:</strong> Mia Batiz</div>
+                            <div class="sub-item"><strong>Fecha:</strong> 04/02/2026</div>
+                            <div class="sub-item"><strong>Rodilla Derecha:</strong> ID 267208</div>
+                            <div class="sub-item"><strong>Rodilla Izquierda:</strong> ID 267209</div>
+                            <div class="sub-item"><strong>Tipo:</strong> RM de Rodillas</div>
+                        </div>
+                    </div>
+
+                    <!-- Hallazgos Rodilla Derecha -->
+                    <div class="branch" onclick="toggleBranch(this)">
+                        <div class="branch-header">
+                            <span class="branch-title">&#129461; Hallazgos Rodilla Derecha</span>
+                            <span class="branch-toggle">&#9654;</span>
+                        </div>
+                        <div class="sub-branches">
+                            <div class="sub-item status-ok"><strong>LCA:</strong> Integro, senal normal, trayecto adecuado</div>
+                            <div class="sub-item status-ok"><strong>LCP:</strong> Aspecto normal, sin lesion</div>
+                            <div class="sub-item status-ok"><strong>Menisco Interno:</strong> Morfologia normal, sin roturas</div>
+                            <div class="sub-item status-ok"><strong>Menisco Externo:</strong> Morfologia normal, sin fisuras</div>
+                            <div class="sub-item status-ok"><strong>Cartilago:</strong> Grosor adecuado, sin lesiones</div>
+                            <div class="sub-item status-ok"><strong>Huesos:</strong> Senal normal, sin fracturas</div>
+                            <div class="sub-item status-ok"><strong>Liquido:</strong> Minimo, fisiologico</div>
+                        </div>
+                    </div>
+
+                    <!-- Hallazgos Rodilla Izquierda -->
+                    <div class="branch" onclick="toggleBranch(this)">
+                        <div class="branch-header">
+                            <span class="branch-title">&#129461; Hallazgos Rodilla Izquierda</span>
+                            <span class="branch-toggle">&#9654;</span>
+                        </div>
+                        <div class="sub-branches">
+                            <div class="sub-item status-ok"><strong>LCA:</strong> Integro, senal normal, trayecto adecuado</div>
+                            <div class="sub-item status-ok"><strong>LCP:</strong> Aspecto normal, sin lesion</div>
+                            <div class="sub-item status-ok"><strong>Menisco Interno:</strong> Morfologia normal, sin roturas</div>
+                            <div class="sub-item status-ok"><strong>Menisco Externo:</strong> Morfologia normal, sin fisuras</div>
+                            <div class="sub-item status-ok"><strong>Cartilago:</strong> Grosor adecuado, sin lesiones</div>
+                            <div class="sub-item status-ok"><strong>Huesos:</strong> Senal osea normal, sin lesiones</div>
+                            <div class="sub-item status-ok"><strong>Liquido:</strong> Minimo, fisiologico</div>
+                        </div>
+                    </div>
+
+                    <!-- Guia de Visualizacion -->
+                    <div class="branch" onclick="toggleBranch(this)">
+                        <div class="branch-header">
+                            <span class="branch-title">&#128269; Guia de Visualizacion</span>
+                            <span class="branch-toggle">&#9654;</span>
+                        </div>
+                        <div class="sub-branches">
+                            <div class="sub-item"><strong>Serie Sag Obl T2* GRE:</strong> Ver LCA (imagenes 6-8)</div>
+                            <div class="sub-item"><strong>Serie COR STIR:</strong> Detectar edema e inflamacion</div>
+                            <div class="sub-item"><strong>LCA normal:</strong> Banda diagonal oscura</div>
+                            <div class="sub-item"><strong>Meniscos normales:</strong> Triangulos oscuros laterales</div>
+                            <div class="sub-item"><strong>Hueso sano:</strong> Gris oscuro uniforme</div>
+                            <div class="sub-item"><strong>Edema (si hubiera):</strong> Areas blancas brillantes</div>
+                        </div>
+                    </div>
+
+                    <!-- Conclusion General -->
+                    <div class="branch" onclick="toggleBranch(this)">
+                        <div class="branch-header">
+                            <span class="branch-title">&#127775; Conclusion General</span>
+                            <span class="branch-toggle">&#9654;</span>
+                        </div>
+                        <div class="sub-branches">
+                            <div class="sub-item status-ok"><strong>Estado General:</strong> Ambas rodillas en muy buen estado</div>
+                            <div class="sub-item status-ok"><strong>Ligamentos Cruzados:</strong> Intactos en ambas rodillas</div>
+                            <div class="sub-item status-ok"><strong>Meniscos:</strong> Normales, sin roturas</div>
+                            <div class="sub-item status-ok"><strong>Cartilago:</strong> Buen grosor</div>
+                            <div class="sub-item status-ok"><strong>Huesos:</strong> Sin lesiones</div>
+                            <div class="sub-item" style="border-left-color: #48bb78; background: #f0fff4;"><strong style="color: #276749;">&#10004; No hay hallazgos que requieran preocupacion</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="instructions">
+                <p><strong>&#128161; Haz clic en cada seccion</strong> para expandir o colapsar la informacion</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleBranch(branch) {
+            // Toggle expanded class
+            branch.classList.toggle('expanded');
+
+            // Toggle active class on header
+            const header = branch.querySelector('.branch-header');
+            header.classList.toggle('active');
+        }
+
+        // Expand first branch by default
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstBranch = document.querySelector('.branch');
+            if (firstBranch) {
+                firstBranch.classList.add('expanded');
+                firstBranch.querySelector('.branch-header').classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
